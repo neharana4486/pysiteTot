@@ -38,6 +38,18 @@ def handle_user(user_id):
     """
     if user_id in users:
         if request.method == "GET":
+            print("this is GET request")
             return jsonify(users[user_id])
+        elif request.method == "PUT":
+            data = request.get_json()
+            print("printing the data recieved from frontend", data)
+            users[user_id] = data
+            print("this is PUT to update", str(users[user_id]))
+            return jsonify(users[user_id])
+        elif request.method == "DELETE":
+            print("printing the remaining data (after delete)")
+            del users[user_id]
+            return jsonify({"message": "Users has been deleted successfully"})
+
     else:
         return jsonify({"message": "User not found"}), 404
